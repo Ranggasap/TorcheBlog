@@ -49,7 +49,7 @@
                 Keep Reading
             </a>
 
-            @if (isset(Auth::user()->id) && Auth::user()->id == $post->user_id)
+                @can('update', $post)
                 <span class="float-right">
                     <a 
                         href="/blog/{{ $post->slug }}/edit"
@@ -57,7 +57,9 @@
                         Edit
                     </a>
                 </span>
+                @endcan
 
+                @can('delete', $post)
                 <span class="float-right">
                      <form 
                         action="/blog/{{ $post->slug }}"
@@ -73,7 +75,7 @@
 
                     </form>
                 </span>
-            @endif
+                @endcan
         </div>
     </div>    
 @endforeach

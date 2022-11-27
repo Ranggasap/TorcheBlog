@@ -28,7 +28,6 @@
         enctype="multipart/form-data">
         @csrf
         @method('PUT')
-
         <input 
             type="text"
             name="title"

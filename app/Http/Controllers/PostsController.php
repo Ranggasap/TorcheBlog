@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 
 class PostsController extends Controller
@@ -83,9 +84,11 @@ class PostsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($slug)
-    {
+    {   
+        $post = Post::where('slug', $slug)->first();
+        $this->authorize('update', $post);
         return view('blog.edit')
-            ->with('post', Post::where('slug', $slug)->first());
+            ->with('post', $post);
     }
 
     /**
@@ -97,6 +100,8 @@ class PostsController extends Controller
      */
     public function update(Request $request, $slug)
     {
+        $post = Post::where('slug', $slug)->first();
+        $this->authorize('update', $post);
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -123,6 +128,7 @@ class PostsController extends Controller
     public function destroy($slug)
     {
         $post = Post::where('slug', $slug);
+        $this->authorize('delete', $post);
         $post->delete();
 
         return redirect('/blog')
