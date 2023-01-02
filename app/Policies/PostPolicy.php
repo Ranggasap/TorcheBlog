@@ -16,6 +16,8 @@ class PostPolicy
      * @return void
      */
 
+     // 
+
     public function update(User $user, Post $post){
         return $user->id === $post->user_id || $user->is_admin === 1;
     }
